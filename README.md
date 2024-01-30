@@ -1,2 +1,2 @@
 # Ramirez-et-al-2024
-R chunk for the simulation exercise of Ramirez et al. (2024)
+This notebook aims to document the simulation exercise performed by Ramírez et al. (2024). The [SOLANUM](https://cipotato.org/site/inrm/home/downmod.htm) model was used to determine the potential potato yield (Yp) and "roughly" quantify the effect of sowing dates on Yp. The model was calibrated using the SOLANUM's Parameter Estimator and fed with weather data from NASA POWER. Please see more details in Ramírez et al. (2024).
