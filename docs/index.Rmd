@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 This notebook aims to document the simulation exercise performed by Ramírez et al. (2024). The [SOLANUM](https://cipotato.org/site/inrm/home/downmod.htm) model was used to determine the potential potato yield (Yp) and "roughly" quantify the effect of planting dates on Yp. The model was calibrated using the [SOLANUM's Parameter Estimator](https://doi.org/10.1515/opag-2018-0019) and fed with weather data from [NASA POWER](https://cran.r-project.org/web/packages/nasapower/index.html). Please see more details in Ramírez et al. (2024).
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## xx
 
 ```{r cars}
 # load libraries
@@ -31,7 +31,7 @@ library(lubridate)
 library(dplyr)
 ```
 
-## Including Plots
+# Including Plots
 
 You can also embed plots, for example:
 
