@@ -1,12 +1,20 @@
 ---
-title: "Untitled"
-author: "Johan Ninanya"
-date: "2024-01-29"
-output: html_document
+title: "Quantifying effect of planting dates on potential potato yield"
+subtitle: "A crop modeling approach"
+author: "Johan Ninanya (noni)"
+date: "`r Sys.Date()`"
+#site: bookdown::bookdown_site
+#documentclass: book
+output:
+  rmdformats::readthedown:
+    highlight: kate
+    number_sections: FALSE
+    code_folding: show
+    code_download: TRUE
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 ## R Markdown
