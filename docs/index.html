@@ -1383,7 +1383,7 @@ potential potato yield</h1>
 potential potato yield</a></h2>
     <div id="toc">
       <ul>
-      <li><a href="#r-markdown" id="toc-r-markdown">R Markdown</a></li>
+      <li><a href="#background" id="toc-background">Background</a></li>
       <li><a href="#including-plots" id="toc-including-plots">Including
       Plots</a></li>
       </ul>
@@ -1401,23 +1401,24 @@ Ninanya (noni)</p>
    
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>This notebook aims to document the simulation exercise performed by
+Ramírez et al. (2024). The <a href="https://cipotato.org/site/inrm/home/downmod.htm">SOLANUM</a> model
+was used to determine the potential potato yield (Yp) and “roughly”
+quantify the effect of planting dates on Yp. The model was calibrated
+using the <a href="https://doi.org/10.1515/opag-2018-0019">SOLANUM’s
+Parameter Estimator</a> and fed with weather data from <a href="https://cran.r-project.org/web/packages/nasapower/index.html">NASA
+POWER</a>. Please see more details in Ramírez et al. (2024).</p>
 <p>When you click the <strong>Knit</strong> button a document will be
 generated that includes both content as well as the output of any
 embedded R code chunks within the document. You can embed an R code
 chunk like this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code></pre></div>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># load libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(nasapower)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(meteor)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 </div>
 <div id="including-plots" class="section level2">
 <h2>Including Plots</h2>
@@ -1430,7 +1431,7 @@ plot.</p>
 </div>
 
    
-      <div id="rmd-source-code">LS0tDQp0aXRsZTogIlF1YW50aWZ5aW5nIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBwb3RlbnRpYWwgcG90YXRvIHlpZWxkIg0Kc3VidGl0bGU6ICJBIGNyb3AgbW9kZWxpbmcgYXBwcm9hY2giDQphdXRob3I6ICJKb2hhbiBOaW5hbnlhIChub25pKSINCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCINCiNzaXRlOiBib29rZG93bjo6Ym9va2Rvd25fc2l0ZQ0KI2RvY3VtZW50Y2xhc3M6IGJvb2sNCm91dHB1dDoNCiAgcm1kZm9ybWF0czo6cmVhZHRoZWRvd246DQogICAgaGlnaGxpZ2h0OiBrYXRlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBGQUxTRQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IFRSVUUNCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UpDQpgYGANCg0KIyMgUiBNYXJrZG93bg0KDQpUaGlzIGlzIGFuIFIgTWFya2Rvd24gZG9jdW1lbnQuIE1hcmtkb3duIGlzIGEgc2ltcGxlIGZvcm1hdHRpbmcgc3ludGF4IGZvciBhdXRob3JpbmcgSFRNTCwgUERGLCBhbmQgTVMgV29yZCBkb2N1bWVudHMuIEZvciBtb3JlIGRldGFpbHMgb24gdXNpbmcgUiBNYXJrZG93biBzZWUgPGh0dHA6Ly9ybWFya2Rvd24ucnN0dWRpby5jb20+Lg0KDQpXaGVuIHlvdSBjbGljayB0aGUgKipLbml0KiogYnV0dG9uIGEgZG9jdW1lbnQgd2lsbCBiZSBnZW5lcmF0ZWQgdGhhdCBpbmNsdWRlcyBib3RoIGNvbnRlbnQgYXMgd2VsbCBhcyB0aGUgb3V0cHV0IG9mIGFueSBlbWJlZGRlZCBSIGNvZGUgY2h1bmtzIHdpdGhpbiB0aGUgZG9jdW1lbnQuIFlvdSBjYW4gZW1iZWQgYW4gUiBjb2RlIGNodW5rIGxpa2UgdGhpczoNCg0KYGBge3IgY2Fyc30NCnN1bW1hcnkoY2FycykNCmBgYA0KDQojIyBJbmNsdWRpbmcgUGxvdHMNCg0KWW91IGNhbiBhbHNvIGVtYmVkIHBsb3RzLCBmb3IgZXhhbXBsZToNCg0KYGBge3IgcHJlc3N1cmUsIGVjaG89RkFMU0V9DQpwbG90KHByZXNzdXJlKQ0KYGBgDQoNCk5vdGUgdGhhdCB0aGUgYGVjaG8gPSBGQUxTRWAgcGFyYW1ldGVyIHdhcyBhZGRlZCB0byB0aGUgY29kZSBjaHVuayB0byBwcmV2ZW50IHByaW50aW5nIG9mIHRoZSBSIGNvZGUgdGhhdCBnZW5lcmF0ZWQgdGhlIHBsb3QuDQo=</div>
+      <div id="rmd-source-code">LS0tDQp0aXRsZTogIlF1YW50aWZ5aW5nIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBwb3RlbnRpYWwgcG90YXRvIHlpZWxkIg0Kc3VidGl0bGU6ICJBIGNyb3AgbW9kZWxpbmcgYXBwcm9hY2giDQphdXRob3I6ICJKb2hhbiBOaW5hbnlhIChub25pKSINCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCINCiNzaXRlOiBib29rZG93bjo6Ym9va2Rvd25fc2l0ZQ0KI2RvY3VtZW50Y2xhc3M6IGJvb2sNCm91dHB1dDoNCiAgcm1kZm9ybWF0czo6cmVhZHRoZWRvd246DQogICAgaGlnaGxpZ2h0OiBrYXRlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBGQUxTRQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IFRSVUUNCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UpDQpgYGANCg0KIyMgQmFja2dyb3VuZA0KDQpUaGlzIG5vdGVib29rIGFpbXMgdG8gZG9jdW1lbnQgdGhlIHNpbXVsYXRpb24gZXhlcmNpc2UgcGVyZm9ybWVkIGJ5IFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuIFRoZSBbU09MQU5VTV0oaHR0cHM6Ly9jaXBvdGF0by5vcmcvc2l0ZS9pbnJtL2hvbWUvZG93bm1vZC5odG0pIG1vZGVsIHdhcyB1c2VkIHRvIGRldGVybWluZSB0aGUgcG90ZW50aWFsIHBvdGF0byB5aWVsZCAoWXApIGFuZCAicm91Z2hseSIgcXVhbnRpZnkgdGhlIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBZcC4gVGhlIG1vZGVsIHdhcyBjYWxpYnJhdGVkIHVzaW5nIHRoZSBbU09MQU5VTSdzIFBhcmFtZXRlciBFc3RpbWF0b3JdKGh0dHBzOi8vZG9pLm9yZy8xMC4xNTE1L29wYWctMjAxOC0wMDE5KSBhbmQgZmVkIHdpdGggd2VhdGhlciBkYXRhIGZyb20gW05BU0EgUE9XRVJdKGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL3dlYi9wYWNrYWdlcy9uYXNhcG93ZXIvaW5kZXguaHRtbCkuIFBsZWFzZSBzZWUgbW9yZSBkZXRhaWxzIGluIFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuDQoNCldoZW4geW91IGNsaWNrIHRoZSAqKktuaXQqKiBidXR0b24gYSBkb2N1bWVudCB3aWxsIGJlIGdlbmVyYXRlZCB0aGF0IGluY2x1ZGVzIGJvdGggY29udGVudCBhcyB3ZWxsIGFzIHRoZSBvdXRwdXQgb2YgYW55IGVtYmVkZGVkIFIgY29kZSBjaHVua3Mgd2l0aGluIHRoZSBkb2N1bWVudC4gWW91IGNhbiBlbWJlZCBhbiBSIGNvZGUgY2h1bmsgbGlrZSB0aGlzOg0KDQpgYGB7ciBjYXJzfQ0KIyBsb2FkIGxpYnJhcmllcw0KbGlicmFyeShuYXNhcG93ZXIpDQpsaWJyYXJ5KG1ldGVvcikNCmxpYnJhcnkobHVicmlkYXRlKQ0KbGlicmFyeShkcGx5cikNCmBgYA0KDQojIyBJbmNsdWRpbmcgUGxvdHMNCg0KWW91IGNhbiBhbHNvIGVtYmVkIHBsb3RzLCBmb3IgZXhhbXBsZToNCg0KYGBge3IgcHJlc3N1cmUsIGVjaG89RkFMU0V9DQpwbG90KHByZXNzdXJlKQ0KYGBgDQoNCk5vdGUgdGhhdCB0aGUgYGVjaG8gPSBGQUxTRWAgcGFyYW1ldGVyIHdhcyBhZGRlZCB0byB0aGUgY29kZSBjaHVuayB0byBwcmV2ZW50IHByaW50aW5nIG9mIHRoZSBSIGNvZGUgdGhhdCBnZW5lcmF0ZWQgdGhlIHBsb3QuDQo=</div>
    
             
       

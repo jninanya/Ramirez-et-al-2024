@@ -17,14 +17,18 @@ output:
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-## R Markdown
+## Background
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This notebook aims to document the simulation exercise performed by Ramírez et al. (2024). The [SOLANUM](https://cipotato.org/site/inrm/home/downmod.htm) model was used to determine the potential potato yield (Yp) and "roughly" quantify the effect of planting dates on Yp. The model was calibrated using the [SOLANUM's Parameter Estimator](https://doi.org/10.1515/opag-2018-0019) and fed with weather data from [NASA POWER](https://cran.r-project.org/web/packages/nasapower/index.html). Please see more details in Ramírez et al. (2024).
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r cars}
-summary(cars)
+# load libraries
+library(nasapower)
+library(meteor)
+library(lubridate)
+library(dplyr)
 ```
 
 ## Including Plots
