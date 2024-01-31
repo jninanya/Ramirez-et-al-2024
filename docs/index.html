@@ -7,7 +7,7 @@
 
         <meta name="author" content="Johan Ninanya (noni)" />
     
-        <meta name="date" content="2024-01-30" />
+        <meta name="date" content="2024-01-31" />
     
     <title>Quantifying effect of planting dates on potential potato yield</title>
 
@@ -1384,7 +1384,7 @@ potential potato yield</a></h2>
     <div id="toc">
       <ul>
       <li><a href="#background" id="toc-background">Background</a></li>
-      <li><a href="#xx" id="toc-xx">xx</a></li>
+      <li><a href="#crop-model-calibration" id="toc-crop-model-calibration">Crop model calibration</a></li>
       <li><a href="#including-plots" id="toc-including-plots">Including
       Plots</a></li>
       </ul>
@@ -1392,7 +1392,7 @@ potential potato yield</a></h2>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
                   <p class="author"><span class="glyphicon glyphicon-user"></span> Johan
 Ninanya (noni)</p>
-                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2024-01-30</p>
+                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2024-01-31</p>
           </div>
    </div>
      
@@ -1412,8 +1412,11 @@ using the <a href="https://doi.org/10.1515/opag-2018-0019">SOLANUM’s
 Parameter Estimator</a> and fed with weather data from <a href="https://cran.r-project.org/web/packages/nasapower/index.html">NASA
 POWER</a>. Please see more details in Ramírez et al. (2024).</p>
 </div>
-<div id="xx" class="section level2">
-<h2>xx</h2>
+<div id="crop-model-calibration" class="section level2">
+<h2>Crop model calibration</h2>
+<p>For this, the <strong>SOLANUM’s Parameter Estimator</strong> was
+used. A complete documentation about this tool can be found in <a href="https://doi.org/10.1515/opag-2018-0019">Harahagazwe et
+al. (2018)</a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># load libraries</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(nasapower)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(meteor)</span>
@@ -1436,6 +1439,21 @@ POWER</a>. Please see more details in Ramírez et al. (2024).</p>
 ## [8] &quot;DMc  : Dry matter concentration of tubers (fraction)&quot;                
 ## attr(,&quot;VarietyName&quot;)
 ## [1] &quot;BariAlu72&quot;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># defining variables (wvars) and period</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>wvars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;T2M_MAX&quot;</span>, <span class="st">&quot;T2M_MIN&quot;</span>, <span class="st">&quot;ALLSKY_SFC_SW_DWN&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>period <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2000-01-01&quot;</span>, <span class="st">&quot;2023-12-31&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># coordinates (lon, lat) of the Fltola location</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>FUL <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">89.5262</span>, <span class="fl">22.7088</span>) </span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># getting daily data from NASA POWER </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>wdata1 <span class="ot">&lt;-</span> <span class="fu">get_power</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="at">community =</span> <span class="st">&quot;ag&quot;</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>  <span class="at">lonlat =</span> FUL,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="at">pars =</span> wvars,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">dates =</span> period,</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="at">temporal_api =</span> <span class="st">&quot;daily&quot;</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <div id="including-plots" class="section level1">
 <h1>Including Plots</h1>
@@ -1448,7 +1466,7 @@ plot.</p>
 </div>
 
    
-      <div id="rmd-source-code">LS0tDQp0aXRsZTogIlF1YW50aWZ5aW5nIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBwb3RlbnRpYWwgcG90YXRvIHlpZWxkIg0Kc3VidGl0bGU6ICJBIGNyb3AgbW9kZWxpbmcgYXBwcm9hY2giDQphdXRob3I6ICJKb2hhbiBOaW5hbnlhIChub25pKSINCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCINCiNzaXRlOiBib29rZG93bjo6Ym9va2Rvd25fc2l0ZQ0KI2RvY3VtZW50Y2xhc3M6IGJvb2sNCm91dHB1dDoNCiAgcm1kZm9ybWF0czo6cmVhZHRoZWRvd246DQogICAgaGlnaGxpZ2h0OiBrYXRlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBGQUxTRQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IFRSVUUNCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UpDQpgYGANCg0KIyMgQmFja2dyb3VuZA0KDQpUaGlzIG5vdGVib29rIGFpbXMgdG8gZG9jdW1lbnQgdGhlIHNpbXVsYXRpb24gZXhlcmNpc2UgcGVyZm9ybWVkIGJ5IFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuIFRoZSBbU09MQU5VTV0oaHR0cHM6Ly9jaXBvdGF0by5vcmcvc2l0ZS9pbnJtL2hvbWUvZG93bm1vZC5odG0pIG1vZGVsIHdhcyB1c2VkIHRvIGRldGVybWluZSB0aGUgcG90ZW50aWFsIHBvdGF0byB5aWVsZCAoWXApIGFuZCAicm91Z2hseSIgcXVhbnRpZnkgdGhlIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBZcC4gVGhlIG1vZGVsIHdhcyBjYWxpYnJhdGVkIHVzaW5nIHRoZSBbU09MQU5VTSdzIFBhcmFtZXRlciBFc3RpbWF0b3JdKGh0dHBzOi8vZG9pLm9yZy8xMC4xNTE1L29wYWctMjAxOC0wMDE5KSBhbmQgZmVkIHdpdGggd2VhdGhlciBkYXRhIGZyb20gW05BU0EgUE9XRVJdKGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL3dlYi9wYWNrYWdlcy9uYXNhcG93ZXIvaW5kZXguaHRtbCkuIFBsZWFzZSBzZWUgbW9yZSBkZXRhaWxzIGluIFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuDQoNCiMjIHh4DQoNCmBgYHtyIGNhcnN9DQojIGxvYWQgbGlicmFyaWVzDQpsaWJyYXJ5KG5hc2Fwb3dlcikNCmxpYnJhcnkobWV0ZW9yKQ0KbGlicmFyeShsdWJyaWRhdGUpDQpsaWJyYXJ5KGRwbHlyKQ0KDQpsb2FkKHVybCgiaHR0cHM6Ly9naXRodWIuY29tL2puaW5hbnlhL1JhbWlyZXotZXQtYWwtMjAyNC9yYXcvbWFpbi9zb2xhbnVtUi9Dcm9wUGFyYW1zTGlzdC5SZGF0YSIpKQ0KDQpDcm9wUGFyYW1zTGlzdCRCYXJpQWx1NzINCmBgYA0KDQojIEluY2x1ZGluZyBQbG90cw0KDQpZb3UgY2FuIGFsc28gZW1iZWQgcGxvdHMsIGZvciBleGFtcGxlOg0KDQpgYGB7ciBwcmVzc3VyZSwgZWNobz1GQUxTRX0NCnBsb3QocHJlc3N1cmUpDQpgYGANCg0KTm90ZSB0aGF0IHRoZSBgZWNobyA9IEZBTFNFYCBwYXJhbWV0ZXIgd2FzIGFkZGVkIHRvIHRoZSBjb2RlIGNodW5rIHRvIHByZXZlbnQgcHJpbnRpbmcgb2YgdGhlIFIgY29kZSB0aGF0IGdlbmVyYXRlZCB0aGUgcGxvdC4NCg==</div>
+      <div id="rmd-source-code">LS0tDQp0aXRsZTogIlF1YW50aWZ5aW5nIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBwb3RlbnRpYWwgcG90YXRvIHlpZWxkIg0Kc3VidGl0bGU6ICJBIGNyb3AgbW9kZWxpbmcgYXBwcm9hY2giDQphdXRob3I6ICJKb2hhbiBOaW5hbnlhIChub25pKSINCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCINCiNzaXRlOiBib29rZG93bjo6Ym9va2Rvd25fc2l0ZQ0KI2RvY3VtZW50Y2xhc3M6IGJvb2sNCm91dHB1dDoNCiAgcm1kZm9ybWF0czo6cmVhZHRoZWRvd246DQogICAgaGlnaGxpZ2h0OiBrYXRlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBGQUxTRQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IFRSVUUNCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UpDQpgYGANCg0KIyMgQmFja2dyb3VuZA0KDQpUaGlzIG5vdGVib29rIGFpbXMgdG8gZG9jdW1lbnQgdGhlIHNpbXVsYXRpb24gZXhlcmNpc2UgcGVyZm9ybWVkIGJ5IFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuIFRoZSBbU09MQU5VTV0oaHR0cHM6Ly9jaXBvdGF0by5vcmcvc2l0ZS9pbnJtL2hvbWUvZG93bm1vZC5odG0pIG1vZGVsIHdhcyB1c2VkIHRvIGRldGVybWluZSB0aGUgcG90ZW50aWFsIHBvdGF0byB5aWVsZCAoWXApIGFuZCAicm91Z2hseSIgcXVhbnRpZnkgdGhlIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBZcC4gVGhlIG1vZGVsIHdhcyBjYWxpYnJhdGVkIHVzaW5nIHRoZSBbU09MQU5VTSdzIFBhcmFtZXRlciBFc3RpbWF0b3JdKGh0dHBzOi8vZG9pLm9yZy8xMC4xNTE1L29wYWctMjAxOC0wMDE5KSBhbmQgZmVkIHdpdGggd2VhdGhlciBkYXRhIGZyb20gW05BU0EgUE9XRVJdKGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL3dlYi9wYWNrYWdlcy9uYXNhcG93ZXIvaW5kZXguaHRtbCkuIFBsZWFzZSBzZWUgbW9yZSBkZXRhaWxzIGluIFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuDQoNCiMjIENyb3AgbW9kZWwgY2FsaWJyYXRpb24NCg0KRm9yIHRoaXMsIHRoZSAqKlNPTEFOVU0ncyBQYXJhbWV0ZXIgRXN0aW1hdG9yKiogd2FzIHVzZWQuIEEgY29tcGxldGUgZG9jdW1lbnRhdGlvbiBhYm91dCB0aGlzIHRvb2wgY2FuIGJlIGZvdW5kIGluIFtIYXJhaGFnYXp3ZSBldCBhbC4gKDIwMTgpXShodHRwczovL2RvaS5vcmcvMTAuMTUxNS9vcGFnLTIwMTgtMDAxOSkNCg0KYGBge3IgY2Fyc30NCiMgbG9hZCBsaWJyYXJpZXMNCmxpYnJhcnkobmFzYXBvd2VyKQ0KbGlicmFyeShtZXRlb3IpDQpsaWJyYXJ5KGx1YnJpZGF0ZSkNCmxpYnJhcnkoZHBseXIpDQoNCmxvYWQodXJsKCJodHRwczovL2dpdGh1Yi5jb20vam5pbmFueWEvUmFtaXJlei1ldC1hbC0yMDI0L3Jhdy9tYWluL3NvbGFudW1SL0Nyb3BQYXJhbXNMaXN0LlJkYXRhIikpDQoNCkNyb3BQYXJhbXNMaXN0JEJhcmlBbHU3Mg0KDQojIGRlZmluaW5nIHZhcmlhYmxlcyAod3ZhcnMpIGFuZCBwZXJpb2QNCnd2YXJzIDwtIGMoIlQyTV9NQVgiLCAiVDJNX01JTiIsICJBTExTS1lfU0ZDX1NXX0RXTiIpDQpwZXJpb2QgPC0gYygiMjAwMC0wMS0wMSIsICIyMDIzLTEyLTMxIikNCg0KIyBjb29yZGluYXRlcyAobG9uLCBsYXQpIG9mIHRoZSBGbHRvbGEgbG9jYXRpb24NCkZVTCA8LSBjKDg5LjUyNjIsIDIyLjcwODgpIA0KDQojIGdldHRpbmcgZGFpbHkgZGF0YSBmcm9tIE5BU0EgUE9XRVIgDQp3ZGF0YTEgPC0gZ2V0X3Bvd2VyKA0KICBjb21tdW5pdHkgPSAiYWciLA0KICBsb25sYXQgPSBGVUwsDQogIHBhcnMgPSB3dmFycywNCiAgZGF0ZXMgPSBwZXJpb2QsDQogIHRlbXBvcmFsX2FwaSA9ICJkYWlseSINCikNCmBgYA0KDQojIEluY2x1ZGluZyBQbG90cw0KDQpZb3UgY2FuIGFsc28gZW1iZWQgcGxvdHMsIGZvciBleGFtcGxlOg0KDQpgYGB7ciBwcmVzc3VyZSwgZWNobz1GQUxTRX0NCnBsb3QocHJlc3N1cmUpDQpgYGANCg0KTm90ZSB0aGF0IHRoZSBgZWNobyA9IEZBTFNFYCBwYXJhbWV0ZXIgd2FzIGFkZGVkIHRvIHRoZSBjb2RlIGNodW5rIHRvIHByZXZlbnQgcHJpbnRpbmcgb2YgdGhlIFIgY29kZSB0aGF0IGdlbmVyYXRlZCB0aGUgcGxvdC4NCg==</div>
    
             
       

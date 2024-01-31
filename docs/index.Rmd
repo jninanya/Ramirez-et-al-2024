@@ -21,7 +21,9 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 This notebook aims to document the simulation exercise performed by Ramírez et al. (2024). The [SOLANUM](https://cipotato.org/site/inrm/home/downmod.htm) model was used to determine the potential potato yield (Yp) and "roughly" quantify the effect of planting dates on Yp. The model was calibrated using the [SOLANUM's Parameter Estimator](https://doi.org/10.1515/opag-2018-0019) and fed with weather data from [NASA POWER](https://cran.r-project.org/web/packages/nasapower/index.html). Please see more details in Ramírez et al. (2024).
 
-## xx
+## Crop model calibration
+
+For this, the **SOLANUM's Parameter Estimator** was used. A complete documentation about this tool can be found in [Harahagazwe et al. (2018)](https://doi.org/10.1515/opag-2018-0019)
 
 ```{r cars}
 # load libraries
@@ -33,6 +35,22 @@ library(dplyr)
 load(url("https://github.com/jninanya/Ramirez-et-al-2024/raw/main/solanumR/CropParamsList.Rdata"))
 
 CropParamsList$BariAlu72
+
+# defining variables (wvars) and period
+wvars <- c("T2M_MAX", "T2M_MIN", "ALLSKY_SFC_SW_DWN")
+period <- c("2000-01-01", "2023-12-31")
+
+# coordinates (lon, lat) of the Fltola location
+FUL <- c(89.5262, 22.7088) 
+
+# getting daily data from NASA POWER 
+wdata1 <- get_power(
+  community = "ag",
+  lonlat = FUL,
+  pars = wvars,
+  dates = period,
+  temporal_api = "daily"
+)
 ```
 
 # Including Plots
