@@ -29,6 +29,10 @@ library(nasapower)
 library(meteor)
 library(lubridate)
 library(dplyr)
+
+load(url("https://github.com/jninanya/Ramirez-et-al-2024/raw/main/solanumR/CropParamsList.Rdata"))
+
+CropParamsList$BariAlu72
 ```
 
 # Including Plots

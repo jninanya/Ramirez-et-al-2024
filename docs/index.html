@@ -1418,7 +1418,24 @@ POWER</a>. Please see more details in Ramírez et al. (2024).</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(nasapower)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(meteor)</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">url</span>(<span class="st">&quot;https://github.com/jninanya/Ramirez-et-al-2024/raw/main/solanumR/CropParamsList.Rdata&quot;</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>CropParamsList<span class="sc">$</span>BariAlu72</span></code></pre></div>
+<pre><code>##   wmax     tm     te      A     tu      b    RUE    DMc 
+##   0.90 330.00 870.00   0.75 650.00 190.00   3.22   0.20 
+## attr(,&quot;CropParamsInfo&quot;)
+## [1] &quot;wmax : Maximum canopy cover index (fraction)&quot;                        
+## [2] &quot;tm   : Thermal time at the maximum canopy cover growth rate (C-day)&quot; 
+## [3] &quot;te   : Thermal time at the maximum canopy cover value (C-day)&quot;       
+## [4] &quot;A    : Maximum harvest index (fraction)&quot;                             
+## [5] &quot;tu   : Thermal time at maximum tuber partition rate (C-day)&quot;         
+## [6] &quot;b    : Thermal time just before the tuber initiation process (C-day)&quot;
+## [7] &quot;RUE  : Average radiation use efficiency (g/MJ)&quot;                      
+## [8] &quot;DMc  : Dry matter concentration of tubers (fraction)&quot;                
+## attr(,&quot;VarietyName&quot;)
+## [1] &quot;BariAlu72&quot;</code></pre>
 </div>
 <div id="including-plots" class="section level1">
 <h1>Including Plots</h1>
@@ -1431,7 +1448,7 @@ plot.</p>
 </div>
 
    
-      <div id="rmd-source-code">LS0tDQp0aXRsZTogIlF1YW50aWZ5aW5nIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBwb3RlbnRpYWwgcG90YXRvIHlpZWxkIg0Kc3VidGl0bGU6ICJBIGNyb3AgbW9kZWxpbmcgYXBwcm9hY2giDQphdXRob3I6ICJKb2hhbiBOaW5hbnlhIChub25pKSINCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCINCiNzaXRlOiBib29rZG93bjo6Ym9va2Rvd25fc2l0ZQ0KI2RvY3VtZW50Y2xhc3M6IGJvb2sNCm91dHB1dDoNCiAgcm1kZm9ybWF0czo6cmVhZHRoZWRvd246DQogICAgaGlnaGxpZ2h0OiBrYXRlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBGQUxTRQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IFRSVUUNCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UpDQpgYGANCg0KIyMgQmFja2dyb3VuZA0KDQpUaGlzIG5vdGVib29rIGFpbXMgdG8gZG9jdW1lbnQgdGhlIHNpbXVsYXRpb24gZXhlcmNpc2UgcGVyZm9ybWVkIGJ5IFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuIFRoZSBbU09MQU5VTV0oaHR0cHM6Ly9jaXBvdGF0by5vcmcvc2l0ZS9pbnJtL2hvbWUvZG93bm1vZC5odG0pIG1vZGVsIHdhcyB1c2VkIHRvIGRldGVybWluZSB0aGUgcG90ZW50aWFsIHBvdGF0byB5aWVsZCAoWXApIGFuZCAicm91Z2hseSIgcXVhbnRpZnkgdGhlIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBZcC4gVGhlIG1vZGVsIHdhcyBjYWxpYnJhdGVkIHVzaW5nIHRoZSBbU09MQU5VTSdzIFBhcmFtZXRlciBFc3RpbWF0b3JdKGh0dHBzOi8vZG9pLm9yZy8xMC4xNTE1L29wYWctMjAxOC0wMDE5KSBhbmQgZmVkIHdpdGggd2VhdGhlciBkYXRhIGZyb20gW05BU0EgUE9XRVJdKGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL3dlYi9wYWNrYWdlcy9uYXNhcG93ZXIvaW5kZXguaHRtbCkuIFBsZWFzZSBzZWUgbW9yZSBkZXRhaWxzIGluIFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuDQoNCiMjIHh4DQoNCmBgYHtyIGNhcnN9DQojIGxvYWQgbGlicmFyaWVzDQpsaWJyYXJ5KG5hc2Fwb3dlcikNCmxpYnJhcnkobWV0ZW9yKQ0KbGlicmFyeShsdWJyaWRhdGUpDQpsaWJyYXJ5KGRwbHlyKQ0KYGBgDQoNCiMgSW5jbHVkaW5nIFBsb3RzDQoNCllvdSBjYW4gYWxzbyBlbWJlZCBwbG90cywgZm9yIGV4YW1wbGU6DQoNCmBgYHtyIHByZXNzdXJlLCBlY2hvPUZBTFNFfQ0KcGxvdChwcmVzc3VyZSkNCmBgYA0KDQpOb3RlIHRoYXQgdGhlIGBlY2hvID0gRkFMU0VgIHBhcmFtZXRlciB3YXMgYWRkZWQgdG8gdGhlIGNvZGUgY2h1bmsgdG8gcHJldmVudCBwcmludGluZyBvZiB0aGUgUiBjb2RlIHRoYXQgZ2VuZXJhdGVkIHRoZSBwbG90Lg0K</div>
+      <div id="rmd-source-code">LS0tDQp0aXRsZTogIlF1YW50aWZ5aW5nIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBwb3RlbnRpYWwgcG90YXRvIHlpZWxkIg0Kc3VidGl0bGU6ICJBIGNyb3AgbW9kZWxpbmcgYXBwcm9hY2giDQphdXRob3I6ICJKb2hhbiBOaW5hbnlhIChub25pKSINCmRhdGU6ICJgciBTeXMuRGF0ZSgpYCINCiNzaXRlOiBib29rZG93bjo6Ym9va2Rvd25fc2l0ZQ0KI2RvY3VtZW50Y2xhc3M6IGJvb2sNCm91dHB1dDoNCiAgcm1kZm9ybWF0czo6cmVhZHRoZWRvd246DQogICAgaGlnaGxpZ2h0OiBrYXRlDQogICAgbnVtYmVyX3NlY3Rpb25zOiBGQUxTRQ0KICAgIGNvZGVfZm9sZGluZzogc2hvdw0KICAgIGNvZGVfZG93bmxvYWQ6IFRSVUUNCi0tLQ0KDQpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0UpDQpgYGANCg0KIyMgQmFja2dyb3VuZA0KDQpUaGlzIG5vdGVib29rIGFpbXMgdG8gZG9jdW1lbnQgdGhlIHNpbXVsYXRpb24gZXhlcmNpc2UgcGVyZm9ybWVkIGJ5IFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuIFRoZSBbU09MQU5VTV0oaHR0cHM6Ly9jaXBvdGF0by5vcmcvc2l0ZS9pbnJtL2hvbWUvZG93bm1vZC5odG0pIG1vZGVsIHdhcyB1c2VkIHRvIGRldGVybWluZSB0aGUgcG90ZW50aWFsIHBvdGF0byB5aWVsZCAoWXApIGFuZCAicm91Z2hseSIgcXVhbnRpZnkgdGhlIGVmZmVjdCBvZiBwbGFudGluZyBkYXRlcyBvbiBZcC4gVGhlIG1vZGVsIHdhcyBjYWxpYnJhdGVkIHVzaW5nIHRoZSBbU09MQU5VTSdzIFBhcmFtZXRlciBFc3RpbWF0b3JdKGh0dHBzOi8vZG9pLm9yZy8xMC4xNTE1L29wYWctMjAxOC0wMDE5KSBhbmQgZmVkIHdpdGggd2VhdGhlciBkYXRhIGZyb20gW05BU0EgUE9XRVJdKGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL3dlYi9wYWNrYWdlcy9uYXNhcG93ZXIvaW5kZXguaHRtbCkuIFBsZWFzZSBzZWUgbW9yZSBkZXRhaWxzIGluIFJhbcOtcmV6IGV0IGFsLiAoMjAyNCkuDQoNCiMjIHh4DQoNCmBgYHtyIGNhcnN9DQojIGxvYWQgbGlicmFyaWVzDQpsaWJyYXJ5KG5hc2Fwb3dlcikNCmxpYnJhcnkobWV0ZW9yKQ0KbGlicmFyeShsdWJyaWRhdGUpDQpsaWJyYXJ5KGRwbHlyKQ0KDQpsb2FkKHVybCgiaHR0cHM6Ly9naXRodWIuY29tL2puaW5hbnlhL1JhbWlyZXotZXQtYWwtMjAyNC9yYXcvbWFpbi9zb2xhbnVtUi9Dcm9wUGFyYW1zTGlzdC5SZGF0YSIpKQ0KDQpDcm9wUGFyYW1zTGlzdCRCYXJpQWx1NzINCmBgYA0KDQojIEluY2x1ZGluZyBQbG90cw0KDQpZb3UgY2FuIGFsc28gZW1iZWQgcGxvdHMsIGZvciBleGFtcGxlOg0KDQpgYGB7ciBwcmVzc3VyZSwgZWNobz1GQUxTRX0NCnBsb3QocHJlc3N1cmUpDQpgYGANCg0KTm90ZSB0aGF0IHRoZSBgZWNobyA9IEZBTFNFYCBwYXJhbWV0ZXIgd2FzIGFkZGVkIHRvIHRoZSBjb2RlIGNodW5rIHRvIHByZXZlbnQgcHJpbnRpbmcgb2YgdGhlIFIgY29kZSB0aGF0IGdlbmVyYXRlZCB0aGUgcGxvdC4NCg==</div>
    
             
       
