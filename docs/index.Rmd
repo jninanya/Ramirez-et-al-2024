@@ -19,11 +19,17 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 ## Background
 
-This notebook aims to document the simulation exercise performed by Ramírez et al. (2024). The [SOLANUM](https://cipotato.org/site/inrm/home/downmod.htm) model was used to determine the potential potato yield (Yp) and "roughly" quantify the effect of planting dates on Yp. The model was calibrated using the [SOLANUM's Parameter Estimator](https://doi.org/10.1515/opag-2018-0019) and fed with weather data from [NASA POWER](https://cran.r-project.org/web/packages/nasapower/index.html). Please see more details in Ramírez et al. (2024).
+This R markdown notebook aims to document the simulation exercise performed by Ramírez et al. (2024). The [SOLANUM](https://cipotato.org/site/inrm/home/downmod.htm) model was used to determine the potential potato yield (Yp) and "roughly" quantify the effect of planting dates on Yp. The model was calibrated using the [SOLANUM's Parameter Estimator](https://doi.org/10.1515/opag-2018-0019) and fed with weather data from [NASA POWER](https://cran.r-project.org/web/packages/nasapower/index.html)
 
-## Crop model calibration
+## SOLANUM model calibration
 
-For this, the **SOLANUM's Parameter Estimator** was used. A complete documentation about this tool can be found in [Harahagazwe et al. (2018)](https://doi.org/10.1515/opag-2018-0019)
+The SOLANUM model has a tool called **Parameter Estimator** which translates expert knowledge about the crop phenology into the model parameters. This tool is based on allometric and heuristic methods that relate mathematical functions of the vegetative (canopy cover) and reproductive (tuber partitioning) crop growth with the parameters of the model. \textcolor{red}{blue} This tool is based on the following 3 principles:
+
+* Use generic mathematical functions to describe either canopy cover or tuber formation, regardless of varieties or environmental conditions, but with specific parameters that vary depending on varieties.
+* Apply numerical methods to estimate specific parameters by forcing the function to fit a minimum number of data points.
+* The pre-defined minimum number of data points needed to fit the functions must be obtained from expert knowledge. This comprises sowing and harvest dates, day of emergence, day of the maximum canopy cover, maximum canopy cover index, day of physiological maturity, and day of tuber initiation.
+
+Please see [Harahagazwe et al. (2018).](https://doi.org/10.1515/opag-2018-0019) for a complete information about the Parameter Estimator tool.
 
 ```{r cars}
 # load libraries
@@ -40,17 +46,78 @@ CropParamsList$BariAlu72
 wvars <- c("T2M_MAX", "T2M_MIN", "ALLSKY_SFC_SW_DWN")
 period <- c("2000-01-01", "2023-12-31")
 
-# coordinates (lon, lat) of the Fltola location
+# coordinates (lon, lat) of the Fultola location
 FUL <- c(89.5262, 22.7088) 
 
 # getting daily data from NASA POWER 
-wdata1 <- get_power(
+wdata <- get_power(
   community = "ag",
   lonlat = FUL,
   pars = wvars,
   dates = period,
   temporal_api = "daily"
 )
+
+colnames(wdata)[8:10] <- c("TMAX", "TMIN", "SRAD")
+wdata$photoperiod <- photoperiod(wdata$DOY, wdata$LAT)
+
+#--- climatic conditions (average by DOY)
+smr_mean <- wdata %>%
+  group_by(DOY) %>%
+  summarise_at(c("TMAX", "TMIN", "SRAD"), mean, na.rm = TRUE)
+
+smr_q10 <- wdata %>%
+  group_by(DOY) %>%
+  summarise_at(c("TMAX", "TMIN", "SRAD"), quantile, probs = 0.10, na.rm = TRUE)
+
+smr_q90 <- wdata %>%
+  group_by(DOY) %>%
+  summarise_at(c("TMAX", "TMIN", "SRAD"), quantile, probs = 0.90, na.rm = TRUE)
+
+
+smr_mean <- smr_mean[1:365,]
+smr_q10 <- smr_q10[1:365,]
+smr_q90 <- smr_q90[1:365,]
+x <- smr_mean$DOY
+
+#--- plot for minimum and maximum temperature ----------------------------------
+plot(x=0, y=0, type = "l", xlim = c(1,365), ylim = c(5,45), 
+     xlab = "", ylab = "Temperature (°C)", axes = FALSE)
+box()
+axis(1, at = c(15,75,136,197,259,320), 
+     labels = c("JAN","MAR","MAY","JUL","SEP","NOV"))
+axis(2, las = 1)
+
+#minimum temperature
+polygon(c(x, rev(x)), 
+        c(smr_q90$TMIN, rev(smr_q10$TMIN)), col = "#ffb2b2")
+lines(x, smr_mean$TMIN, col = "#FF0000", lwd = 2)
+lines(x, smr_q10$TMIN, col = "#ffb2b2")
+lines(x, smr_q90$TMIN, col = "#ffb2b2")
+
+#maximum temperature
+polygon(c(x, rev(x)), 
+        c(smr_q90$TMAX, rev(smr_q10$TMAX)), col = "#b2b2ff")
+lines(x, smr_mean$TMAX, col = "#0000FF", lwd = 2)
+lines(x, smr_q10$TMAX, col = "#b2b2ff")
+lines(x, smr_q90$TMAX, col = "#b2b2ff")
+
+legend(x = 300, y = 45, legend = c("TMIN", "TMAX"), 
+       col = c("#FF0000", "#0000FF" ), lty = 1, cex = 0.8)
+
+#--- plot for solar radiation --------------------------------------------------
+plot(x=0, y=0, type = "l", xlim = c(1,365), ylim = c(0,30), 
+     xlab = "", ylab = "Solar radiation (MJ/m2.day)", axes = FALSE)
+box()
+axis(1, at = c(15,75,136,197,259,320), 
+     labels = c("JAN","MAR","MAY","JUL","SEP","NOV"))
+axis(2, las = 1)
+polygon(c(x, rev(x)), 
+        c(smr_q90$SRAD, rev(smr_q10$SRAD)), col = "#e8cfb4")
+lines(x, smr_mean$SRAD, col = "#B45F06", lwd = 2)
+lines(x, smr_q10$SRAD, col = "#e8cfb4")
+lines(x, smr_q90$SRAD, col = "#e8cfb4")
+
 ```
 
 # Including Plots
