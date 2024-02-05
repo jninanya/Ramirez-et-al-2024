@@ -31,6 +31,11 @@ The SOLANUM model has a tool called **Parameter Estimator** which translates exp
 
 Please see [Harahagazwe et al. (2018).](https://doi.org/10.1515/opag-2018-0019) for a complete information about the Parameter Estimator tool.
 
+---
+<b>NOTE:</b> Expert knowledge comprises sowing and harvest dates, day of emergence, day of the maximum canopy cover, maximum canopy cover index, day of physiological maturity, and day of tuber initiation.
+---
+
+
 ```{r cars}
 # load libraries
 library(nasapower)
@@ -157,120 +162,120 @@ source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solan
 
 weather <- wdata
 
-for(jj in 1:m){
-  
-  date0 = as.Date(paste0(yy[jj], "-11-01"))-1
-  
-  for(ii in 1:n){
-  
-    
-    sDate = as.Date(date0 + ii)
-    sDate.name = paste(month(sDate), day(sDate), sep = "-")
-    out0[ii, jj] = as.character(sDate)
-    
-    sowing = sDate
-    harvest = sowing + 90
-    ndays = as.numeric(harvest-sowing)+1
-    
-## variety Bari Alu 72    
-    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/BARI-Alu-72.R")
-    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/Module_PotentialGrowth_V2.0.R")
-    
-    out1[ii, jj] = ifelse(df$fty[ndays]>20, df$fty[ndays], NA)
-    
-## variety Bari Alu 78
-    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/BARI-Alu-78.R")
-    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/Module_PotentialGrowth_V2.0.R")
-    
-    out2[ii, jj] = ifelse(df$fty[ndays]>20, df$fty[ndays], NA)
-    
-    rownames(out0)[ii] = sDate.name
-    rownames(out1)[ii] = sDate.name
-    rownames(out2)[ii] = sDate.name
-  }
-  
-  colnames(out0)[jj] = yy[jj]
-  colnames(out1)[jj] = yy[jj]
-  colnames(out2)[jj] = yy[jj]
-  
-}
+#for(jj in 1:m){
+#  
+#  date0 = as.Date(paste0(yy[jj], "-11-01"))-1
+#  
+#  for(ii in 1:n){
+#  
+#    
+#    sDate = as.Date(date0 + ii)
+#    sDate.name = paste(month(sDate), day(sDate), sep = "-")
+#    out0[ii, jj] = as.character(sDate)
+#    
+#    sowing = sDate
+#    harvest = sowing + 90
+#    ndays = as.numeric(harvest-sowing)+1
+#    
+### variety Bari Alu 72    
+#    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-a#l-2024/main/solanumR/BARI-Alu-72.R")
+#    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-a#l-2024/main/solanumR/Module_PotentialGrowth_V2.0.R")
+#    
+#    out1[ii, jj] = ifelse(df$fty[ndays]>20, df$fty[ndays], NA)
+#    
+### variety Bari Alu 78
+#    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-a#l-2024/main/solanumR/BARI-Alu-78.R")
+#    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-a#l-2024/main/solanumR/Module_PotentialGrowth_V2.0.R")
+#    
+#    out2[ii, jj] = ifelse(df$fty[ndays]>20, df$fty[ndays], NA)
+#    
+#    rownames(out0)[ii] = sDate.name
+#    rownames(out1)[ii] = sDate.name
+#    rownames(out2)[ii] = sDate.name
+#  }
+#  
+#  colnames(out0)[jj] = yy[jj]
+#  colnames(out1)[jj] = yy[jj]
+#  colnames(out2)[jj] = yy[jj]
+#  
+#}
 
-d1 <- out1
-d2 <- out2
-
-boxplot(t(d1), col = "green", outline = FALSE, las=1,
-        ylab = "potential yield (t/ha)")
-
-boxplot(t(d2), col = "red", outline = FALSE, las=1,
-        ylab = "potential yield (t/ha)")
-
-
-## plot fty by planting date
-x <- 1:92
-fty_mean <- apply(out1, 1, mean, na.rm = TRUE)
-fty_q10 <- apply(out1, 1, quantile, probs = 0.10, na.rm = TRUE)
-fty_q90 <- apply(out1, 1, quantile, probs = 0.90, na.rm = TRUE)
-
-
-#--------------------------------------------------
-#--------------------------------------------------
-### General figure settings
-par(oma = c(4, 1, 0.5, 0.5),  # general margins
-    mfrow = c(2, 1),              # number of sub-figures
-    mar = c(0,3,0,0),           # margins per sub-figure
-#    ps = 10,                      # text font size
-    family = "serif"              # text family
-#    lwd = 0.5,                    # line width
-#    las = 1,                      # style of axis labels
-#    pch = 20                      # plotting points
-)
-
-x=1:90
-y1=d1$`2021`[1:90]
-y2=d2$`2021`[1:90]
-plot(x, y1, type = "l", xlim = c(1,92), ylim = c(23,57), 
-     xlab = "", ylab = "potential yield (t/ha)", axes = FALSE, 
-     lwd = 2)
-box()
-lines(x, y2, lwd = 2, col = "gray50")
-
+#d1 <- out1
+#d2 <- out2
+#
+#boxplot(t(d1), col = "green", outline = FALSE, las=1,
+#        ylab = "potential yield (t/ha)")
+#
+#boxplot(t(d2), col = "red", outline = FALSE, las=1,
+#        ylab = "potential yield (t/ha)")
+#
+#
+### plot fty by planting date
+#x <- 1:92
+#fty_mean <- apply(out1, 1, mean, na.rm = TRUE)
+#fty_q10 <- apply(out1, 1, quantile, probs = 0.10, na.rm = TRUE)
+#fty_q90 <- apply(out1, 1, quantile, probs = 0.90, na.rm = TRUE)
+#
+#
+##--------------------------------------------------
+##--------------------------------------------------
+#### General figure settings
+#par(oma = c(4, 1, 0.5, 0.5),  # general margins
+#    mfrow = c(2, 1),              # number of sub-figures
+#    mar = c(0,3,0,0),           # margins per sub-figure
+##    ps = 10,                      # text font size
+#    family = "serif"              # text family
+##    lwd = 0.5,                    # line width
+##    las = 1,                      # style of axis labels
+##    pch = 20                      # plotting points
+#)
+#
+#x=1:90
+#y1=d1$`2021`[1:90]
+#y2=d2$`2021`[1:90]
+#plot(x, y1, type = "l", xlim = c(1,92), ylim = c(23,57), 
+#     xlab = "", ylab = "potential yield (t/ha)", axes = FALSE, 
+#     lwd = 2)
+#box()
+#lines(x, y2, lwd = 2, col = "gray50")
+#
+##axis(1, at = c(5,15,25,35,45,55,66,76,86), las = 2,
+##     labels = c("5-nov","15-nov","25-nov","5-dec","15-dec","25-dec#","5-jan","15-jan","25-jan"))
+##axis(1, las = 1, at = seq(5, 90, by=10))
+#axis(2, las = 1, at=seq(25,55,by=5))
+#abline(v=50, lty = 2, col = "blue")
+#abline(v=74, lty = 2, col = "blue")
+#
+#text(47, 55.5, "ZT", col = "blue")
+#text(71, 55.5, "CT", col = "blue")
+#
+#text(0, 55.5, expression(bold("A")))
+#mtext(side=2, text=bquote("yield (t ha"^{"-1"}*")"), cex = 1.5, #line = 2.4)
+#
+####
+#x=1:85
+#y1=d1$`2022`[1:85]
+#y2=d2$`2022`[1:85]
+#plot(x, y1, type = "l", xlim = c(1,92), ylim = c(23,52), 
+#     xlab = "", ylab = "potential yield (t/ha)", axes = FALSE, 
+#     lwd = 2)
+#box()
+#lines(x, y2, lwd = 2, col = "gray50")
+#
 #axis(1, at = c(5,15,25,35,45,55,66,76,86), las = 2,
-#     labels = c("5-nov","15-nov","25-nov","5-dec","15-dec","25-dec","5-jan","15-jan","25-jan"))
-#axis(1, las = 1, at = seq(5, 90, by=10))
-axis(2, las = 1, at=seq(25,55,by=5))
-abline(v=50, lty = 2, col = "blue")
-abline(v=74, lty = 2, col = "blue")
-
-text(47, 55.5, "ZT", col = "blue")
-text(71, 55.5, "CT", col = "blue")
-
-text(0, 55.5, expression(bold("A")))
-mtext(side=2, text=bquote("yield (t ha"^{"-1"}*")"), cex = 1.5, line = 2.4)
-
-###
-x=1:85
-y1=d1$`2022`[1:85]
-y2=d2$`2022`[1:85]
-plot(x, y1, type = "l", xlim = c(1,92), ylim = c(23,52), 
-     xlab = "", ylab = "potential yield (t/ha)", axes = FALSE, 
-     lwd = 2)
-box()
-lines(x, y2, lwd = 2, col = "gray50")
-
-axis(1, at = c(5,15,25,35,45,55,66,76,86), las = 2,
-     labels = c("05-nov","15-nov","25-nov","05-dec","15-dec","25-dec","05-jan","15-jan","25-jan"))
-#axis(1, las = 1, at = seq(5, 90, by=10))
-axis(2, las = 1, at=seq(25,50,by=5))
-abline(v=44, lty = 2, col = "blue")
-abline(v=62, lty = 2, col = "blue")
-
-text(41, 51, "ZT", col = "blue")
-text(59, 51, "CT", col = "blue")
-
-text(0, 51, expression(bold("B")))
-
-mtext(side=2, text=bquote("yield (t ha"^{"-1"}*")"), cex = 1.5, line = 2.4)
-
+#     labels = c("05-nov","15-nov","25-nov","05-dec","15-dec","25-de#c","05-jan","15-jan","25-jan"))
+##axis(1, las = 1, at = seq(5, 90, by=10))
+#axis(2, las = 1, at=seq(25,50,by=5))
+#abline(v=44, lty = 2, col = "blue")
+#abline(v=62, lty = 2, col = "blue")
+#
+#text(41, 51, "ZT", col = "blue")
+#text(59, 51, "CT", col = "blue")
+#
+#text(0, 51, expression(bold("B")))
+#
+#mtext(side=2, text=bquote("yield (t ha"^{"-1"}*")"), cex = 1.5, #line = 2.4)
+#
 
 
 
