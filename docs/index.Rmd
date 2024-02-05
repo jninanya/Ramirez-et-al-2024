@@ -80,6 +80,23 @@ smr_q10 <- smr_q10[1:365,]
 smr_q90 <- smr_q90[1:365,]
 x <- smr_mean$DOY
 
+
+climate <- apply(smr_mean, 2, rep, 2)
+climate <- as.data.frame(climate)
+
+year1 = fromDoy(climate$DOY[1:365], 2021)
+year2 = fromDoy(climate$DOY[366:730], 2022)
+
+climate$day <- NULL
+climate$month <- NULL
+climate$year <- NULL
+climate$day[1:365] <- day(year1)
+climate$day[366:730] <- day(year2)
+climate$month[1:365] <- month(year1)
+climate$month[366:730] <- month(year2)
+climate$year[1:365] <- year(year1)
+climate$year[366:730] <- year(year2)
+
 #--- plot for minimum and maximum temperature ----------------------------------
 plot(x=0, y=0, type = "l", xlim = c(1,365), ylim = c(5,45), 
      xlab = "", ylab = "Temperature (°C)", axes = FALSE)
@@ -120,12 +137,3 @@ lines(x, smr_q90$SRAD, col = "#e8cfb4")
 
 ```
 
-# Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
