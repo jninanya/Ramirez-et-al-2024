@@ -135,5 +135,95 @@ lines(x, smr_mean$SRAD, col = "#B45F06", lwd = 2)
 lines(x, smr_q10$SRAD, col = "#e8cfb4")
 lines(x, smr_q90$SRAD, col = "#e8cfb4")
 
+################################################################################
+# 3. Thermal time computing
+################################################################################
+year0 = 2000
+year1 = 2022
+n <- as.Date("2023-01-31")-as.Date("2022-11-01")+1
+m <- year1-year0+1
+
+wdata <- wdata[wdata$YEAR>=year0 & wdata$YEAR<=year1,]
+
+out0 <- as.data.frame(matrix(nrow = n, ncol = m))
+out1 <- as.data.frame(matrix(nrow = n, ncol = m))
+out2 <- as.data.frame(matrix(nrow = n, ncol = m))
+yy = unique(wdata$YEAR)
+
+# load extra functions
+source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/thermalTime.R")
+
+
+
+weather <- wdata
+
+for(jj in 1:m){
+  
+  date0 = as.Date(paste0(yy[jj], "-11-01"))-1
+  
+  for(ii in 1:n){
+  
+    
+    sDate = as.Date(date0 + ii)
+    sDate.name = paste(month(sDate), day(sDate), sep = "-")
+    out0[ii, jj] = as.character(sDate)
+    
+    sowing = sDate
+    harvest = sowing + 90
+    ndays = as.numeric(harvest-sowing)+1
+    
+## variety Bari Alu 72    
+    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/BARI-Alu-72.R")
+    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/Module_PotentialGrowth_V2.0.R")
+    
+    out1[ii, jj] = ifelse(df$fty[ndays]>20, df$fty[ndays], NA)
+    
+## variety Bari Alu 78
+    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/BARI-Alu-78.R")
+    source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/Module_PotentialGrowth_V2.0.R")
+    
+    out2[ii, jj] = ifelse(df$fty[ndays]>20, df$fty[ndays], NA)
+    
+    rownames(out0)[ii] = sDate.name
+    rownames(out1)[ii] = sDate.name
+    rownames(out2)[ii] = sDate.name
+  }
+  
+  colnames(out0)[jj] = yy[jj]
+  colnames(out1)[jj] = yy[jj]
+  colnames(out2)[jj] = yy[jj]
+  
+}
+
+
+boxplot(t(d1), col = "green", outline = FALSE, las=1,
+        ylab = "potential yield (t/ha)")
+
+boxplot(t(d2), col = "red", outline = FALSE, las=1,
+        ylab = "potential yield (t/ha)")
+
+
+## plot fty by planting date
+x <- 1:92
+fty_mean <- apply(out1, 1, mean, na.rm = TRUE)
+fty_q10 <- apply(out1, 1, quantile, probs = 0.10, na.rm = TRUE)
+fty_q90 <- apply(out1, 1, quantile, probs = 0.90, na.rm = TRUE)
+
+
+#--------------------------------------------------
+plot(x=0, y=0, type = "l", xlim = c(1,92), ylim = c(25,50), 
+     xlab = "", ylab = "potential yield (t/ha)", axes = FALSE)
+box()
+axis(1, at = c(5,15,25,35,45,55,66,76,86), las = 2,
+     labels = c("5-nov","15-nov","25-nov","5-dic","15-dic","25-dic","5-jan","15-jan","25-jan"))
+#axis(1, las = 1, at = seq(5, 90, by=10))
+axis(2, las = 1)
+polygon(c(x, rev(x)), 
+        c(fty_q90, rev(fty_q10)), col = "#e8cfb4")
+lines(x, fty_mean, col = "#B45F06", lwd = 2)
+lines(x, fty_q10, col = "#e8cfb4")
+lines(x, fty_q90, col = "#e8cfb4")
+
+
 ```
 
