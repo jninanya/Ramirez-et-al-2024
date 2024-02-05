@@ -143,12 +143,12 @@ year1 = 2022
 n <- as.Date("2023-01-31")-as.Date("2022-11-01")+1
 m <- year1-year0+1
 
-wdata <- wdata[wdata$YEAR>=year0 & wdata$YEAR<=year1,]
+#wdata <- wdata[wdata$YEAR>=year0 & wdata$YEAR<=year1,]
 
 out0 <- as.data.frame(matrix(nrow = n, ncol = m))
 out1 <- as.data.frame(matrix(nrow = n, ncol = m))
 out2 <- as.data.frame(matrix(nrow = n, ncol = m))
-yy = unique(wdata$YEAR)
+yy = seq(year0, year1, by = 1)
 
 # load extra functions
 source("https://raw.githubusercontent.com/jninanya/Ramirez-et-al-2024/main/solanumR/thermalTime.R")
@@ -195,6 +195,8 @@ for(jj in 1:m){
   
 }
 
+d1 <- out1
+d2 <- out2
 
 boxplot(t(d1), col = "green", outline = FALSE, las=1,
         ylab = "potential yield (t/ha)")
@@ -211,18 +213,71 @@ fty_q90 <- apply(out1, 1, quantile, probs = 0.90, na.rm = TRUE)
 
 
 #--------------------------------------------------
-plot(x=0, y=0, type = "l", xlim = c(1,92), ylim = c(25,50), 
-     xlab = "", ylab = "potential yield (t/ha)", axes = FALSE)
+#--------------------------------------------------
+### General figure settings
+par(oma = c(4, 1, 0.5, 0.5),  # general margins
+    mfrow = c(2, 1),              # number of sub-figures
+    mar = c(0,3,0,0),           # margins per sub-figure
+#    ps = 10,                      # text font size
+    family = "serif"              # text family
+#    lwd = 0.5,                    # line width
+#    las = 1,                      # style of axis labels
+#    pch = 20                      # plotting points
+)
+
+x=1:90
+y1=d1$`2021`[1:90]
+y2=d2$`2021`[1:90]
+plot(x, y1, type = "l", xlim = c(1,92), ylim = c(23,57), 
+     xlab = "", ylab = "potential yield (t/ha)", axes = FALSE, 
+     lwd = 2)
 box()
-axis(1, at = c(5,15,25,35,45,55,66,76,86), las = 2,
-     labels = c("5-nov","15-nov","25-nov","5-dic","15-dic","25-dic","5-jan","15-jan","25-jan"))
+lines(x, y2, lwd = 2, col = "gray50")
+
+#axis(1, at = c(5,15,25,35,45,55,66,76,86), las = 2,
+#     labels = c("5-nov","15-nov","25-nov","5-dec","15-dec","25-dec","5-jan","15-jan","25-jan"))
 #axis(1, las = 1, at = seq(5, 90, by=10))
-axis(2, las = 1)
-polygon(c(x, rev(x)), 
-        c(fty_q90, rev(fty_q10)), col = "#e8cfb4")
-lines(x, fty_mean, col = "#B45F06", lwd = 2)
-lines(x, fty_q10, col = "#e8cfb4")
-lines(x, fty_q90, col = "#e8cfb4")
+axis(2, las = 1, at=seq(25,55,by=5))
+abline(v=50, lty = 2, col = "blue")
+abline(v=74, lty = 2, col = "blue")
+
+text(47, 55.5, "ZT", col = "blue")
+text(71, 55.5, "CT", col = "blue")
+
+text(0, 55.5, expression(bold("A")))
+mtext(side=2, text=bquote("yield (t ha"^{"-1"}*")"), cex = 1.5, line = 2.4)
+
+###
+x=1:85
+y1=d1$`2022`[1:85]
+y2=d2$`2022`[1:85]
+plot(x, y1, type = "l", xlim = c(1,92), ylim = c(23,52), 
+     xlab = "", ylab = "potential yield (t/ha)", axes = FALSE, 
+     lwd = 2)
+box()
+lines(x, y2, lwd = 2, col = "gray50")
+
+axis(1, at = c(5,15,25,35,45,55,66,76,86), las = 2,
+     labels = c("05-nov","15-nov","25-nov","05-dec","15-dec","25-dec","05-jan","15-jan","25-jan"))
+#axis(1, las = 1, at = seq(5, 90, by=10))
+axis(2, las = 1, at=seq(25,50,by=5))
+abline(v=44, lty = 2, col = "blue")
+abline(v=62, lty = 2, col = "blue")
+
+text(41, 51, "ZT", col = "blue")
+text(59, 51, "CT", col = "blue")
+
+text(0, 51, expression(bold("B")))
+
+mtext(side=2, text=bquote("yield (t ha"^{"-1"}*")"), cex = 1.5, line = 2.4)
+
+
+
+
+
+
+
+
 
 
 ```
