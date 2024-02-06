@@ -29,14 +29,27 @@ The SOLANUM model has a tool called **Parameter Estimator** which translates exp
 * Apply numerical methods to estimate specific parameters by forcing the function to fit a minimum number of data points.
 * The pre-defined minimum number of data points needed to fit the functions must be obtained from expert knowledge. This comprises sowing and harvest dates, day of emergence, day of the maximum canopy cover, maximum canopy cover index, day of physiological maturity, and day of tuber initiation.
 
-Please see [Harahagazwe et al. (2018).](https://doi.org/10.1515/opag-2018-0019) for a complete information about the Parameter Estimator tool.
+Please see [Harahagazwe et al. (2018).](#Harahagazwe-et-al-2018) for a complete information about the Parameter Estimator tool.
 
----
-<b>NOTE:</b> Expert knowledge comprises sowing and harvest dates, day of emergence, day of the maximum canopy cover, maximum canopy cover index, day of physiological maturity, and day of tuber initiation.
----
+<!-- Figure 01 -->
+<a id="Figure01"></a>
+<div style="text-align:center;">
+  ![**Figura 1:** Parameter Estimator tool of the SOLANUM model.](https://github.com/jninanya/Ramirez-et-al-2024/blob/main/solanumR/Figures/Parameter-Estimator-Tool.png?raw=true){width=81%}
+  <p style="margin-bottom: 10px;"></p> <!-- Add some space below the image caption -->
+</div>
+
+The Parameter Estimated tool was run with . Values of the crop parameters for both varieties were saved in `CropParamsList.Rdata`. Let's see them in the following R chunk code:
+
+```{r crop-parameters-database, results='show', collapse = TRUE}
+load(url("https://github.com/jninanya/Ramirez-et-al-2024/raw/main/solanumR/CropParamsList.Rdata"))
+
+CropParamsList$BariAlu72
+CropParamsList$BariAlu78
+```
 
 
-```{r cars}
+
+```{r}
 # load libraries
 library(nasapower)
 library(meteor)
@@ -287,3 +300,7 @@ weather <- wdata
 
 ```
 
+
+## References
+
+1. [Harahagazwe et al. (2018)](#Harahagazwe-et-al-2018)
