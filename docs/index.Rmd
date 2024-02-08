@@ -23,13 +23,13 @@ This R markdown notebook aims to document the simulation exercise performed by R
 
 ## SOLANUM model calibration
 
-The SOLANUM model has a tool called **Parameter Estimator** which translates expert knowledge about the crop phenology into the model parameters. This tool is based on allometric and heuristic methods that relate mathematical functions of the vegetative (canopy cover) and reproductive (tuber partitioning) crop growth with the parameters of the model. \textcolor{red}{blue} This tool is based on the following 3 principles:
+The SOLANUM model has a tool called **Parameter Estimator** which translates expert knowledge about the crop phenology into the model parameters. This tool is based on allometric and heuristic methods that relate mathematical functions of the vegetative (canopy cover) and reproductive (tuber partitioning) crop growth with the parameters of the model. This tool is based on the following 3 principles:
 
 * Use generic mathematical functions to describe either canopy cover or tuber formation, regardless of varieties or environmental conditions, but with specific parameters that vary depending on varieties.
 * Apply numerical methods to estimate specific parameters by forcing the function to fit a minimum number of data points.
 * The pre-defined minimum number of data points needed to fit the functions must be obtained from expert knowledge. This comprises sowing and harvest dates, day of emergence, day of the maximum canopy cover, maximum canopy cover index, day of physiological maturity, and day of tuber initiation.
 
-Please see [Harahagazwe et al. (2018).](#Harahagazwe-et-al-2018) for a complete information about the Parameter Estimator tool.
+More details about the Parameter Estimator tool can be found in [Harahagazwe et al. (2018)](#Harahagazwe-et-al-2018).
 
 <!-- Figure 01 -->
 <a id="Figure01"></a>
@@ -38,16 +38,18 @@ Please see [Harahagazwe et al. (2018).](#Harahagazwe-et-al-2018) for a complete 
   <p style="margin-bottom: 10px;"></p> <!-- Add some space below the image caption -->
 </div>
 
-The Parameter Estimated tool was run with . Values of the crop parameters for both varieties were saved in `CropParamsList.Rdata`. Let's see them in the following R chunk code:
+The Parameter Estimated tool was run with [cite](#climate-conditions). Values of the crop parameters for both varieties were saved in `CropParamsList.Rdata`. Let's see them in the following R chunk code:
 
 ```{r crop-parameters-database, results='show', collapse = TRUE}
 load(url("https://github.com/jninanya/Ramirez-et-al-2024/raw/main/solanumR/CropParamsList.Rdata"))
 
 CropParamsList$BariAlu72
+
 CropParamsList$BariAlu78
 ```
 
 
+## Libraries
 
 ```{r}
 # load libraries
@@ -59,7 +61,12 @@ library(dplyr)
 load(url("https://github.com/jninanya/Ramirez-et-al-2024/raw/main/solanumR/CropParamsList.Rdata"))
 
 CropParamsList$BariAlu72
+```
 
+
+## Climate conditions {#climate-conditions}
+
+```{r}
 # defining variables (wvars) and period
 wvars <- c("T2M_MAX", "T2M_MIN", "ALLSKY_SFC_SW_DWN")
 period <- c("2000-01-01", "2023-12-31")
@@ -115,6 +122,17 @@ climate$month[366:730] <- month(year2)
 climate$year[1:365] <- year(year1)
 climate$year[366:730] <- year(year2)
 
+
+par(oma = c(4.0, 1.0, 0.5, 0.5),  # general margins
+    mfrow = c(1, 2),              # number of sub-figures
+    mar = c(1 ,0 ,1 ,0),          # margins per sub-figure
+    ps = 10,                      # text font size
+    family = "serif",             # text family
+    lwd = 0.5,                    # line width
+    las = 1,                      # style of axis labels  
+    pch = 20                      # plotting points
+)
+
 #--- plot for minimum and maximum temperature ----------------------------------
 plot(x=0, y=0, type = "l", xlim = c(1,365), ylim = c(5,45), 
      xlab = "", ylab = "Temperature (°C)", axes = FALSE)
@@ -152,6 +170,13 @@ polygon(c(x, rev(x)),
 lines(x, smr_mean$SRAD, col = "#B45F06", lwd = 2)
 lines(x, smr_q10$SRAD, col = "#e8cfb4")
 lines(x, smr_q90$SRAD, col = "#e8cfb4")
+
+```
+
+
+## Thermal time computing
+
+```{r}
 
 ################################################################################
 # 3. Thermal time computing
