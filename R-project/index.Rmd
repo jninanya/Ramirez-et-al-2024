@@ -217,6 +217,122 @@ CropParamsList$BariAlu72
 CropParamsList$BariAlu78
 ```
 
+## XX
+
+```{r}
+
+#-------------------------------------------------------------------------------
+# 5. Historical yield at 80 and 90 DAP 
+#-------------------------------------------------------------------------------
+# consider 20 years
+nyears <- 2000:2019
+
+swgDates <- c("2021-12-20", "2021-12-12", "2021-12-20", "2021-12-12",
+              "2022-12-14", "2022-12-31", "2022-12-14", "2022-12-31")
+hvtDates <- c("2022-03-27", "2022-03-27", "2022-03-27", "2022-03-27",
+              "2023-03-16", "2023-03-16", "2023-03-16", "2023-03-16")
+hvtDAP <- c(97, 105, 97, 105, 92, 75, 92, 75)
+
+CP <- CropParamsList[c("BariAlu72", "BariAlu78")]
+CParams <- list(CP[[1]], CP[[1]], CP[[2]], CP[[2]], 
+                CP[[1]], CP[[1]], CP[[2]], CP[[2]])  
+emgDays <- c(12, 12, 14, 14, 12, 12, 14, 14)
+
+wdata <- as.data.frame(wdata)
+
+o1 <- as.data.frame(matrix(nrow = length(nyears), ncol = 8))
+o2 <- as.data.frame(matrix(nrow = length(nyears), ncol = 8))
+o3 <- as.data.frame(matrix(nrow = length(nyears), ncol = 8))
+
+cname <-   c("ZTV1S1", "CTV1S1", "ZTV2S1", "CTV2S1",
+             "ZTV1S2", "CTV1S2", "ZTV2S2", "CTV2S2")
+
+colnames(o1) <- colnames(o2) <- colnames(o3) <- cname
+rownames(o1) <- rownames(o2) <- rownames(o3) <- nyears
+
+for(i in 1:length(nyears)){
+  
+  for(j in 1:8){
+    
+    swg <- swgDates[j]
+    hvt <- hvtDates[j]
+    weather <- wdata
+    sowing <- paste(nyears[i], month(swg), day(swg), sep = "-")
+    #harvest <- paste(nyears[i]+1, month(hvt), day(hvt), sep = "-")
+    harvest <- as.Date(sowing) + hvtDAP[j]
+    EDay <- emgDays[j]
+    plantDensity = 12.5
+    CropParams <- CParams[[j]]
+    
+    res <- SolanumModel(weather, sowing, harvest, EDay,plantDensity, CropParams)
+    nn <- nrow(res)
+    o1[i, j] <- as.character(res$date[1])
+    o2[i, j] <- round(res$fty[nn], 1)
+    o3[i, j] <- round(res$tdm[nn], 1)
+    
+  }
+}
+
+c1 <- list(date = o1, fty = o2, tdm = o3)
+
+
+#-------------------------------------------------------------------------------
+# 9. Final plot
+#-------------------------------------------------------------------------------
+# general plot settings
+par(oma    = c(3.0, 4.2, 2.0, 4.2),  # general margins
+    mfrow  = c(1, 2),                # number of sub-figures
+    mar    = c(0.8, 0.1, 0.1, 0.1),  # margins per sub-figure
+    ps     = 10,                     # text font size
+    family = "serif",                # text family
+    lwd    = 1.0,                    # line width
+    las    = 1,                      # style of axis labels  
+    pch    = 20                      # plotting points
+)
+
+xT <- c(10, 25, 40, 55, 71, 86)
+xL <- c("10-Nov", "25-Nov", "10-Dec", "25-Dec", "10-Jan", "25-Jan")
+
+# sub-figure A
+b1 = boxplot(c1$fty[, 1:2], xlim = c(0.5,4.7), ylim = c(28, 47), 
+             at = 1:2, axes = FALSE, boxwex = 0.6)
+b2 = boxplot(c1$fty[, 3:4], add = TRUE, at = c(3.2, 4.2), 
+             axes = FALSE, boxwex = 0.6)
+box()
+axis(side = 2)
+mtext(side = 2, text = bquote("YP (t ha"^{-1}*")"), las = 0, 
+      line = 2.4, cex = 1.2)
+text(x = 0.5+0.025*(4.7-0.5), y = 47-0.050*(47-28), 
+     labels = bquote(bold("A)")))
+
+axis(side = 1, at = c(1,2,3.2,4.2), 
+     labels = c("ZT_BA72", "CT_BA72", "ZT_BA78", "CT_BA78"), cex.axis = 1.2)
+
+
+# sub-figure B
+b1 = boxplot(c1$fty[, 5:6], xlim = c(0.5,4.7), ylim = c(28, 47), 
+             at = 1:2, axes = FALSE, boxwex = 0.6)
+b2 = boxplot(c1$fty[, 7:8], add = TRUE, at = c(3.2, 4.2), 
+             axes = FALSE, boxwex = 0.6)
+box()
+axis(side = 4) 
+mtext(side = 4, text = bquote("YP (t ha"^{-1}*")"), las = 0, 
+      line = 3.0, cex = 1.2)
+text(x = 0.5+0.025*(4.7-0.5), y = 47-0.050*(47-28), 
+     labels = bquote(bold("B)")))
+
+axis(side = 1, at = c(1,2,3.2,4.2), 
+     labels = c("ZT_BA72", "CT_BA72", "ZT_BA78", "CT_BA78"), cex.axis = 1.2)
+
+
+
+
+
+
+
+```
+
+
 
 ## Thermal time computing
 
