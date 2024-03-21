@@ -188,9 +188,6 @@ The SOLANUM model has a tool called **Parameter Estimator** which translates exp
 
 More details about the Parameter Estimator tool can be found in [Harahagazwe et al. (2018)](#Harahagazwe-et-al-2018).
 
-from expert knowdledge (R. Ebna and H. Monower; personal comunication; 6 February 2024)
-
-
 ```{r echo=FALSE, results='asis'}
 y1 <- c("Distance between plants (cm)", "Distance between rows (cm)", "Planting date", "Emergency day (DAP)", "Tuber initiation onset (DAP)", "Time when plant reach its maximum canopy cover (DAP)", "Harvest day (DAP)", "Approximate value of the maximum canopy cover (fraction)", "Yield at 70 DAP (t/ha)", "Yield at harvest day (t/ha)", "Dry matter concentration (%)")
 y2 <- c("25", "60", "11th November", "12", "35", "60", "90", "0.92", "28", "35", "22.50")
@@ -210,7 +207,7 @@ knitr::kable(tb, caption = "Table 1. Crop phenology information used as input to
   <p style="margin-bottom: 10px;"></p> <!-- Add some space below the image caption -->
 </div>
 
-The Parameter Estimated tool was run with XX. Values of the crop parameters for both varieties were saved in `CropParamsList.Rdata`. Let's see them in the following R chunk code:
+The Parameter Estimated tool was run with using information about crop phenology from literature (Mahmud et al. 2021, Islam et al. 2022) and from expert knowdledge (R. Ebna and H. Monower; personal comunication; 6 February 2024). Values of the crop parameters for both varieties were saved in `CropParamsList.Rdata`. Let's see them in the following R chunk code:
 
 ```{r crop-parameters-database, results='show', collapse = TRUE}
 load(url("https://github.com/jninanya/Ramirez-et-al-2024/raw/main/solanumR/CropParamsList.Rdata"))
