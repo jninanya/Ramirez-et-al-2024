@@ -86,16 +86,19 @@ wdata <- get_power(
 colnames(wdata)[8:10] <- c("TMAX", "TMIN", "SRAD")
 wdata$photoperiod <- photoperiod(wdata$DOY, wdata$LAT)
 
+w1 <- wdata[wdata$YEAR >= 2000 & wdata$YEAR <= 2020, ]
+w2 <- wdata[wdata$YEAR > 2020, ]
+
 #--- climatic conditions (average by DOY)
-smr_mean <- wdata %>%
+smr_mean <- w1 %>%
   group_by(DOY) %>%
   summarise_at(c("TMAX", "TMIN", "SRAD"), mean, na.rm = TRUE)
 
-smr_q10 <- wdata %>%
+smr_q10 <- w1 %>%
   group_by(DOY) %>%
   summarise_at(c("TMAX", "TMIN", "SRAD"), quantile, probs = 0.10, na.rm = TRUE)
 
-smr_q90 <- wdata %>%
+smr_q90 <- w1 %>%
   group_by(DOY) %>%
   summarise_at(c("TMAX", "TMIN", "SRAD"), quantile, probs = 0.90, na.rm = TRUE)
 
@@ -122,10 +125,12 @@ climate$month[366:730] <- month(year2)
 climate$year[1:365] <- year(year1)
 climate$year[366:730] <- year(year2)
 
+climate <- climate[,c("day", "month", "year", "DOY", "TMAX", "TMIN", "SRAD")]
 
-par(oma = c(4.0, 1.0, 0.5, 0.5),  # general margins
+
+par(oma = c(2.5, 3.5, 0.5, 3.5),  # general margins
     mfrow = c(1, 2),              # number of sub-figures
-    mar = c(1 ,0 ,1 ,0),          # margins per sub-figure
+    mar = c(0, 0.25, 0, 0.25),          # margins per sub-figure
     ps = 10,                      # text font size
     family = "serif",             # text family
     lwd = 0.5,                    # line width
@@ -134,12 +139,12 @@ par(oma = c(4.0, 1.0, 0.5, 0.5),  # general margins
 )
 
 #--- plot for minimum and maximum temperature ----------------------------------
-plot(x=0, y=0, type = "l", xlim = c(1,365), ylim = c(5,45), 
-     xlab = "", ylab = "Temperature (°C)", axes = FALSE)
+plot(x=0, y=0, type = "l", xlim = c(1,365), ylim = c(5,45), xlab = "", ylab = "", axes = FALSE)
 box()
 axis(1, at = c(15,75,136,197,259,320), 
      labels = c("JAN","MAR","MAY","JUL","SEP","NOV"))
 axis(2, las = 1)
+mtext(side = 2, text=quote("Temperature (°C)"), las = 0, line = 2.4, cex = 1.2)
 
 #minimum temperature
 polygon(c(x, rev(x)), 
@@ -155,21 +160,26 @@ lines(x, smr_mean$TMAX, col = "#0000FF", lwd = 2)
 lines(x, smr_q10$TMAX, col = "#b2b2ff")
 lines(x, smr_q90$TMAX, col = "#b2b2ff")
 
-legend(x = 300, y = 45, legend = c("TMIN", "TMAX"), 
-       col = c("#FF0000", "#0000FF" ), lty = 1, cex = 0.8)
+
+
+legend(x = "topright", legend = c("TMAX", "TMIN"), 
+       col = c("#0000FF", "#FF0000"), lty = 1, cex = 0.8)
 
 #--- plot for solar radiation --------------------------------------------------
-plot(x=0, y=0, type = "l", xlim = c(1,365), ylim = c(0,30), 
-     xlab = "", ylab = "Solar radiation (MJ/m2.day)", axes = FALSE)
+plot(x=0, y=0, type = "l", xlim = c(1,365), ylim = c(0,30), xlab = "", ylab = "", axes = FALSE)
 box()
 axis(1, at = c(15,75,136,197,259,320), 
      labels = c("JAN","MAR","MAY","JUL","SEP","NOV"))
-axis(2, las = 1)
+axis(4, las = 1)
+
+mtext(side = 4, text=quote("Radiation (MJ m"^{-2}*")"), las = 0, line = 2.4, cex = 1.2)
+
 polygon(c(x, rev(x)), 
         c(smr_q90$SRAD, rev(smr_q10$SRAD)), col = "#e8cfb4")
 lines(x, smr_mean$SRAD, col = "#B45F06", lwd = 2)
 lines(x, smr_q10$SRAD, col = "#e8cfb4")
 lines(x, smr_q90$SRAD, col = "#e8cfb4")
+
 
 ```
 
